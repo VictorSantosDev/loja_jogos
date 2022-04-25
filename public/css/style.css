@@ -1,0 +1,14 @@
+.body-imagem{
+
+    background: url("/imagem/papel2.gif");
+    background-position: center center;
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.configura-btn-info{
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    margin: 15px;
+}

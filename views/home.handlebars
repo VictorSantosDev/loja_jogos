@@ -1,0 +1,125 @@
+<div class="container">
+    
+    <div class="row d-flex justify-content-center mb-5 px-3 teste">
+        <div class="col-md-6 bg-light px-3 pb-5 pt-4">
+            <h1 class="display-6 text-center">Adicione um Jogo</h1>
+            <form action="/produto/create" method="POST" class="col-md-12">
+                <div class="d-flex justify-content-center">
+                    <span>Nome do Jogo</span>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-info text-white" id="basic-addon1"><i class="bi bi-joystick"></i></span>
+                    <input type="text" class="form-control text-center" name="jogo" value="" placeholder="Ex: The Last Os Us 2" aria-label="Username" aria-describedby="basic-addon1" autofocus>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <span>Quantidade</span>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-info text-white" id="basic-addon1"><i class="bi bi-boxes"></i></span>
+                    <input type="number" class="form-control text-center" name="quantidade" placeholder="---" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <span>Valor do jogo</span>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-info text-white" id="basic-addon1"><i class="bi bi-cash-stack"></i></span>
+                    <input type="number" class="form-control text-center" name="valor" placeholder="Ex: 25,00" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                
+                <div class="border rounded p-2 mb-3">
+                    <div class="d-flex justify-content-center">
+                        <span>Deseja criar uma cor de capa aleatória ?</span>
+                    </div>
+                    <div class="form-check d-flex justify-content-center mt-2">
+                        <input class="form-check-input" name="aleatorio" type="checkbox" value="1" id="flexCheckDefault">
+                        <label class="form-check-label ms-2" for="flexCheckDefault">
+                            Aleatório
+                        </label>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-info text-white" type="submit">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover bg-light">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Game</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Capa</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if verificaProdutos}}
+                    {{#each produtos}}
+                    <tr>
+                        <th scope="row">{{this.id}}</th>
+                        <td>{{this.jogo}}</td>
+                        <td>{{this.quantidade}}</td>
+                        <td>{{this.valor}}</td>
+                        <td>
+                            <i class="bi bi-circle-fill" style="color: {{this.aleatorio}};"></i>
+                        </td>
+                    </tr>
+                    {{/each}}
+
+                {{else}}
+                    <tr>
+                        <td colspan="5" class="text-center">Não existe registro nessa tabela</tr>
+                    </tr>
+                {{/if}}
+
+                {{#if exibirMais}}
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <a href="/filtro" class="btn btn-warning">
+                                ver mais
+                            </a>
+                        </td>
+                    </tr>
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-info text-white configura-btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <i class="bi bi-info"></i>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-info" id="exampleModalLabel">Ajuda</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item text-success">Adicione um jogo para dar entrada no sistema.</li>
+            <li class="list-group-item text-success">Informe a quantidade que você possui de jogos.</li>
+            <li class="list-group-item text-success">Informe o valor que deseja vender os jogos.</li>
+            <li class="list-group-item text-success">Escolha a opção de gerar cor aleatória, caso contrario o sistema exibirá como default a cor preta.</li>
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- script --}}
+<script src="/js/script.js"></script>
