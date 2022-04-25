@@ -10,7 +10,7 @@ const mysql = require('mysql');
 // });
 
 // produção
-const pool = mysql.createPoll({
+const pool = mysql.createPool({
     connectionLimit: 10,
     host: 'us-cdbr-east-05.cleardb.net',
     user: 'be7b28157c7767',
