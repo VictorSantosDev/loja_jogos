@@ -1,6 +1,6 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
-const mysql = require('mysql');
+const pool = require('./db/conn')
 const port = process.env.PORT || 3000;
 
 const app = express();
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     const sql = "SELECT * FROM produto order by id desc limit 3";   
     
 
-    conn.query(sql, function (err, data) {
+    pool.query(sql, function (err, data) {
         if(err){
             console.log(err)
             return
@@ -97,9 +97,10 @@ app.post('/produto/create', (req, res) => {
     if(req.body.jogo == ''){
         res.redirect('/');
     }else{
-        const sql = `INSERT INTO produto (jogo, quantidade, valor, aleatorio) VALUES ('${jogo}', '${quantidade}', '${valor}', '${cor}')`
-    
-        conn.query(sql, function (err){
+        const sql = `INSERT INTO produto (??, ??, ??, ??) VALUES (?, ?, ?, ?)`
+        const data = ['jogo', 'quantidade', 'valor', 'aleatorio', jogo, quantidade, valor, cor]
+
+        pool.query(sql, data, function (err){
             if(err){
                 console.log(err);
                 return
@@ -115,7 +116,7 @@ app.get('/filtro', (req, res) => {
 
     const sql = "SELECT * FROM produto order by id desc";   
 
-    conn.query(sql, function (err, data) {
+    pool.query(sql, function (err, data) {
         if(err){
             console.log(err)
             return
@@ -123,7 +124,13 @@ app.get('/filtro', (req, res) => {
 
         const produtos = data;
 
-        res.render('filtro', {produtos});
+        if(produtos == ''){
+            verificaProdutos = false
+        }else{
+            verificaProdutos = true
+        }
+
+        res.render('filtro', {produtos, verificaProdutos});
     });
 
 })
@@ -131,15 +138,18 @@ app.get('/filtro', (req, res) => {
 app.get('/editar/:id', (req, res) => {
     const id = req.params.id;
 
-    const sql = `SELECT * FROM produto WHERE id = ${id}`
+    const sql = `SELECT * FROM produto WHERE ?? = ?`
+    const data = ['id', id]
 
-    conn.query(sql, function (err, data){
+    pool.query(sql, data, function (err, data){
+
         if(err){
             console.log(err);
             return
         }
 
         const produto = data[0]
+
         res.render('editar', {produto});
 
     })
@@ -153,9 +163,10 @@ app.post('/produto/update', (req, res) => {
     const quantidade = req.body.quantidade;
     const valor = req.body.valor;
 
-    const sql = `UPDATE produto SET jogo = '${jogo}', quantidade = '${quantidade}', valor = '${valor}' WHERE id = '${id}'`
+    const sql = `UPDATE produto SET ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?`
+    const data = ['jogo', jogo, 'quantidade', quantidade, 'valor',   valor, 'id', id];
 
-    conn.query(sql, function (err){
+    pool.query(sql, data, function (err){
         if(err){
             console.log(err)
             return
@@ -165,20 +176,21 @@ app.post('/produto/update', (req, res) => {
     })
 })
 
+app.post('/produto/remover/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = `DELETE from produto where ?? = ?`;
+    const data = ['id', id];
 
-const conn = mysql.createConnection({
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'be7b28157c7767',
-    password: 'c03f623a',
-    database: 'heroku_128f32d67dd5426',
-});
+    pool.query(sql, data, function (err) {
+        if(err){
+            console.log(err);
+            return
+        }
 
-conn.connect(function(err) {
-    if(err){
-        console.log(err)
-    }
-
-    console.log('conectou com mysql!')
-
-    app.listen(port); 
+        res.redirect('/filtro');
+    });
 })
+
+
+app.listen(port); 
+

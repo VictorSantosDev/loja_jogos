@@ -12,21 +12,30 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each produtos}}
-                <tr>
-                    <th scope="row">{{this.id}}</th>
-                    <td>{{this.jogo}}</td>
-                    <td>{{this.quantidade}}</td>
-                    <td>{{this.valor}}</td>
-                    <td>
-                        <i class="bi bi-circle-fill" style="color: {{this.aleatorio}};"></i>
-                    </td>
-                    <td>
-                        <a href="/editar/{{this.id}}" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
-                        <a href="" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash2-fill"></i></a>
-                    </td>
-                </tr>
-                {{/each}}
+                {{#if verificaProdutos}}
+                    {{#each produtos}}
+                    <tr>
+                        <th scope="row">{{this.id}}</th>
+                        <td>{{this.jogo}}</td>
+                        <td>{{this.quantidade}}</td>
+                        <td>{{this.valor}}</td>
+                        <td>
+                            <i class="bi bi-circle-fill" style="color: {{this.aleatorio}};"></i>
+                        </td>
+                        <td>
+                            <a href="/editar/{{this.id}}" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                            <form action="/produto/remover/{{this.id}}" method="POST">
+                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash2-fill"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{/each}}
+
+                {{else}}
+                    <tr>
+                        <td colspan="6" class="text-center">Não existe registro nessa tabela. <a href="/">adicionar</a></tr>
+                    </tr>
+                {{/if}}
             </tbody>
         </table>
     </div>
