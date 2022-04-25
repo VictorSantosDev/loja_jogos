@@ -167,10 +167,10 @@ app.post('/produto/update', (req, res) => {
 
 
 const conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'loja_eletronica',
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'be7b28157c7767',
+    password: 'c03f623a',
+    database: 'heroku_128f32d67dd5426',
 });
 
 conn.connect(function(err) {

@@ -15,7 +15,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Banco de dados: `loja_eletronica`
@@ -27,13 +27,15 @@ SET time_zone = "+00:00";
 -- Estrutura da tabela `produto`
 --
 
+use heroku_128f32d67dd5426;
+
 CREATE TABLE `produto` (
   `id` int(11) NOT NULL,
   `jogo` varchar(30) NOT NULL,
   `quantidade` int(11) DEFAULT 0,
   `valor` float(4,2) NOT NULL,
   `aleatorio` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Índices para tabelas despejadas
